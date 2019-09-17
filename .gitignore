@@ -1,8 +1,14 @@
 ### Customizations
 # Data Folder
 goesdata
+
 # in case we want the empty folder
 goesdata/*
+
+#sample code for sanity check
+GOES-17_sample
+
+#Basemap via mpl_toolkits is deprecated. Use cartopy
 
 ### Start Standard .gitignore for python
 # Byte-compiled / optimized / DLL files
