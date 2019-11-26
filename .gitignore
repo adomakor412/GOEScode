@@ -8,6 +8,9 @@ goesdata/*
 #sample code for sanity check
 GOES-17_sample
 
+#Code not needed for this GeoSpatial branch
+Untitled.ipnyb
+
 #Basemap via mpl_toolkits is deprecated. Use cartopy
 
 ### Start Standard .gitignore for python
