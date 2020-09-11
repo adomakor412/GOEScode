@@ -15,11 +15,11 @@ import seaborn as sns
 import netCDF4
 sns.set(style="darkgrid")
 
-class CreateNumpy_401_1001(ncFile=sys.argv[1], pathIn=sys.argv[2], pathOut=sys.argv[3]):
+class CreateNumpy_401_1001():
     def __init__(self):
-        self.ncFile = ncFile
-        self.pathIn = PathIn
-        self.pathOut = PathOut
+        self.ncFile = sys.argv[1]
+        self.pathIn = '../GOEScode/'#PathIn
+        self.pathOut = '../GOEScode/'#PathOut
         
     def normIm(self,im,gamma=1.0,reverse=False):
         nim = ((im-np.nanmin(im))*(np.nanmax(im)-np.nanmin(im))**(-1))
@@ -62,12 +62,12 @@ class CreateNumpy_401_1001(ncFile=sys.argv[1], pathIn=sys.argv[2], pathOut=sys.a
     def cartopy_pyresample_toggle_extent(self,input_extent):
         return np.array(input_extent)[np.array([0,2,1,3])]
 
-    def trasform_cartopy_extent(self,source_extent,source_proj, target_proj):
+    def transform_cartopy_extent(self,source_extent,source_proj, target_proj):
         target_extent = target_proj.transform_points(source_proj, 
                                                      np.array(source_extent[:2]),
                                                      np.array(source_extent[2:])).ravel()
         # target_extent in 3D, must be in 2D
-        return cartopy_pyresample_toggle_extent(np.array(target_extent)[np.array([0,1,3,4])])
+        return self.cartopy_pyresample_toggle_extent(np.array(target_extent)[np.array([0,1,3,4])])
     
     def create_nc_Numpy(self):
         myFile = xr.open_dataset(op.join(self.pathIn,self.ncFile))
@@ -88,10 +88,10 @@ class CreateNumpy_401_1001(ncFile=sys.argv[1], pathIn=sys.argv[2], pathOut=sys.a
         # Convert extent from pc to mc (both cylindrical projections)
         extent_pc = [-109.59326, -102.40674, 8.94659, -8.94656]
 
-        target_extent_mc_cartopy = trasform_cartopy_extent(extent_pc, pc, mc)
-        target_extent_mc_pyresample = cartopy_pyresample_toggle_extent(target_extent_mc_cartopy)
+        target_extent_mc_cartopy = self.transform_cartopy_extent(extent_pc, pc, mc)
+        target_extent_mc_pyresample = self.cartopy_pyresample_toggle_extent(target_extent_mc_cartopy)
 
-        roi_rads = goes_2_roi(myFile,
+        roi_rads = self.goes_2_roi(myFile,
                    target_extent_mc_pyresample,
                    401,1001,
                    mc)
@@ -101,4 +101,5 @@ class CreateNumpy_401_1001(ncFile=sys.argv[1], pathIn=sys.argv[2], pathOut=sys.a
         myFile.close()
         return
 if __name__=='__main__':
-    CreateNumpy_401_1001.run()
+    istance = CreateNumpy_401_1001()
+    istance.create_nc_Numpy()
