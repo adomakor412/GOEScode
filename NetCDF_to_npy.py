@@ -8,6 +8,7 @@ import re
 from subprocess import Popen
 import xarray as xr
 import metpy
+from metpy.cbook import get_test_data
 import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
 from pyresample import image, geometry
@@ -18,8 +19,8 @@ sns.set(style="darkgrid")
 class CreateNumpy_401_1001():
     def __init__(self):
         self.ncFile = sys.argv[1]
-        self.pathIn = '../GOEScode/'#PathIn
-        self.pathOut = '../GOEScode/'#PathOut
+        self.pathIn = ''#PathIn
+        self.pathOut = ''#PathOut
         
     def normIm(self,im,gamma=1.0,reverse=False):
         nim = ((im-np.nanmin(im))*(np.nanmax(im)-np.nanmin(im))**(-1))
@@ -27,7 +28,7 @@ class CreateNumpy_401_1001():
             nim = (1.0-nim**(gamma))
         return nim
     
-    def goes_2_roi(self,loaded_goes, 
+    def goes_2_roi(self,geos_crs, 
                target_extent,
                target_rows,#actual length or base
                target_cols,#actual width or height
@@ -35,8 +36,7 @@ class CreateNumpy_401_1001():
                data_key='Rad',
                radius_of_influence=50000):
         """Function that goes from loaded GOES data to data resampled in a projection for an extent"""
-        dat = loaded_goes.metpy.parse_cf('Rad')
-        geos_crs = dat.metpy.cartopy_crs
+        
         cartopy_source_extent = geos_crs.x_limits + geos_crs.y_limits
         pyresample_source_extent = (cartopy_source_extent[0],
                                     cartopy_source_extent[2],
@@ -101,5 +101,5 @@ class CreateNumpy_401_1001():
         myFile.close()
         return
 if __name__=='__main__':
-    istance = CreateNumpy_401_1001()
-    istance.create_nc_Numpy()
+    instance = CreateNumpy_401_1001()
+    instance.create_nc_Numpy()
