@@ -19,8 +19,7 @@ sns.set(style="darkgrid")
 class CreateNumpy_401_1001():
     def __init__(self):
         self.ncFile = sys.argv[1]
-        self.pathIn = ''#PathIn
-        self.pathOut = ''#PathOut
+        self.outputName = sys.argv[2]
         
     def normIm(self,im,gamma=1.0,reverse=False):
         nim = ((im-np.nanmin(im))*(np.nanmax(im)-np.nanmin(im))**(-1))
@@ -96,8 +95,7 @@ class CreateNumpy_401_1001():
                    401,1001,
                    mc)
     
-        full_filename = op.join(pathOut,ncFile[:-3])
-        np.save(full_filename,roi_rads)
+        np.save(outputName,roi_rads)
         myFile.close()
         return
 if __name__=='__main__':
