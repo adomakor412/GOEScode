@@ -1,11 +1,11 @@
-#!/usr/bin/env python3
+#!/usr/bikhkhk/MyEnv python3
 
 import numpy as np
 import sys
 import os
 from os import path as op
 import re
-from subprocess import Popen
+#from subprocess import Popen
 import xarray as xr
 import metpy
 from metpy.cbook import get_test_data
@@ -16,10 +16,14 @@ import seaborn as sns
 import netCDF4
 sns.set(style="darkgrid")
 
-class CreateNumpy_401_1001():
+class CreateNumpy_401_1001():#ncFile=None, outputName = None):
     def __init__(self):
         self.ncFile = sys.argv[1]
         self.outputName = sys.argv[2]
+#         if ncFile == None:
+#             self.ncFile = sys.argv[1]
+#         if outputName == None:
+#             self.outputName = sys.argv[2]
         
     def normIm(self,im,gamma=1.0,reverse=False):
         nim = ((im-np.nanmin(im))*(np.nanmax(im)-np.nanmin(im))**(-1))
@@ -69,7 +73,9 @@ class CreateNumpy_401_1001():
         return self.cartopy_pyresample_toggle_extent(np.array(target_extent)[np.array([0,1,3,4])])
     
     def create_nc_Numpy(self):
-        myFile = xr.open_dataset(op.join(self.pathIn,self.ncFile))
+        myFile = xr.open_dataset(self.ncFile)
+        #Need yaml to see this log
+        #print('My file is ',str(myFile))
         dat = myFile.metpy.parse_cf('Rad')
         geos = dat.metpy.cartopy_crs
 
