@@ -18,8 +18,8 @@ sns.set(style="darkgrid")
 
 class CreateNumpy_401_1001():#ncFile=None, outputName = None):
     def __init__(self):
-        self.ncFile = sys.argv[1]
-        self.outputName = sys.argv[2]
+        self.ncFile = os.path.expanduser(sys.argv[1])
+        self.outputName = os.path.expanduser(sys.argv[2])
 #         if ncFile == None:
 #             self.ncFile = sys.argv[1]
 #         if outputName == None:
